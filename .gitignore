@@ -15,7 +15,7 @@ config.py
 
 # Datasets
 # Do not commit large CSV files
-SpamAssassin.csv
+*.csv
 
 # Trained Models
 # These are "build artifacts" created by train_model.py
