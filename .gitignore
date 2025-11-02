@@ -1,0 +1,28 @@
+# Created by venv; see https://docs.python.org/3/library/venv.html
+
+# Python Virtual Environment
+# Never commit the '.venv' folder
+.venv/
+
+# Python Cache
+# These are temporary files created by Python
+__pycache__/
+*.pyc
+
+# Secrets & Configuration
+# CRITICAL: This stops you from leaking your API key
+config.py
+
+# Datasets
+# Do not commit large CSV files
+SpamAssassin.csv
+
+# Trained Models
+# These are "build artifacts" created by train_model.py
+model.pkl
+vectorizer.pkl
+
+# OS / IDE Files
+.DS_Store
+Thumbs.db
+.vscode/

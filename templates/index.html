@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ScamShield AI Test UI</title>
+    <style>
+        body { font-family: sans-serif; max-width: 600px; margin: auto; padding: 20px; background-color: #f4f4f4; }
+        h1 { color: #333; }
+        textarea { width: 100%; height: 150px; border: 1px solid #ccc; border-radius: 5px; box-sizing: border-box; }
+        button { background-color: #007bff; color: white; padding: 10px 15px; border: none; border-radius: 5px; cursor: pointer; font-size: 16px; }
+        button:hover { background-color: #0056b3; }
+        #result { margin-top: 20px; padding: 15px; border-radius: 5px; border: 1px solid #ddd; }
+        .safe { background-color: #e6ffe6; border-color: #00b300; }
+        .suspicious { background-color: #fffbe6; border-color: #e6b800; }
+        .scam { background-color: #ffe6e6; border-color: #cc0000; }
+    </style>
+</head>
+<body>
+    <h1>ScamShield AI (Cloud Test UI)</h1>
+    <p>This UI tests the API deployed on the server.</p>
+    
+    <form id="analyze-form">
+        <textarea id="message-text" placeholder="Paste a message to analyze..."></textarea>
+        <button typeS="submit">Analyze</button>
+    </form>
+    
+    <div id="result">
+        <h3>Result will show here...</h3>
+    </div>
+
+    <script>
+        document.getElementById('analyze-form').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            let message = document.getElementById('message-text').value;
+            let resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = '<h3>Analyzing...</h3>';
+            resultDiv.className = '';
+            
+            let response = await fetch('/api/analyze', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ 'message': message })
+            });
+            
+            let result = await response.json();
+            
+            let classification = result.classification || 'Error';
+            let reason = result.reason_label || result.error;
+            
+            resultDiv.innerHTML = `<h3>${classification}</h3><p><strong>Label:</strong> ${reason}</p>`;
+            
+            if (classification === 'Scam Likely') {
+                resultDiv.classList.add('scam');
+            } else if (classification === 'Suspicious') {
+                resultDiv.classList.add('suspicious');
+            } else {
+                resultDiv.classList.add('safe');
+            }
+        });
+    </script>
+</body>
+</html>
